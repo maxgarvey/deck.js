@@ -64,10 +64,31 @@ var deck = (function(){
             ];
         },
         'shuffle': function(){
-            // TODO: implement
+            if (this.cards !== undefined) {
+                var cardIndex = this.cards.length;
+                var currentCard;
+                var switchIndex;
+
+                while (0 < cardIndex) {
+                    switchIndex = Math.floor(Math.random()*cardIndex);
+                    cardIndex = cardIndex - 1;
+
+                    // save to buffer
+                    currentCard = this.cards[cardIndex];
+
+                    this.cards[cardIndex] = this.cards[switchIndex];
+                    this.cards[switchIndex] = currentCard;
+                }
+            }
         },
         'deal': function(num_cards){
-            // TODO: implement
+            var dealt_cards = [];
+            for (var i = 0; i<num_cards; i++) {
+                dealt_cards.push(
+                    this.cards.shift()
+                );
+            }
+            return dealt_cards;
         },
     };
 
