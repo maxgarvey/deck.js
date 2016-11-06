@@ -7,7 +7,7 @@ var deck = (function(){
         this.name = name;
 
         switch(rank){
-            case 'ace': 
+            case 'ace':
                 if (aces_high){this.rank_index = 12;}
                 else {this.rank_index = 0;}
                 break;
@@ -154,11 +154,28 @@ var deck = (function(){
             return dealt_cards;
         },
         'addCardToDeck': function(card, top_of_deck=true) {
-            // TODO: implement this
+			if(top_of_deck){
+				this.cards.unshift(card);
+			} else {
+				this.cards.push(card);
+			}
         },
         'cutTheDeck': function(deviation_from_middle=.2){
-            // TODO: implement this
-        }
+            // cutting will always be pseudo random, but the deviation can be specified
+			if (this.cards.length > 2) {
+				var cut_depth = Math.floor(
+					(.5 + ((Math.random()-.5) * deviation_from_middle ))* this.cards.length
+			    );
+				var first_half = this.cards.slice(0,cut_depth);
+				var second_half = this.cards.slice(cut_depth);
+				for(var card_index = 0; card_index<first_half.length; card_index++) {
+					second_half.push(first_half[card_index]);
+				};
+				this.cards = second_half;
+			} else if (this.cards.length === 2) {
+                this.cards.reverse();
+			}
+		}
     };
     // return object
     return deck;
